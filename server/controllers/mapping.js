@@ -23,16 +23,20 @@ const getCompleted = async (req, res) => {
     const genders = new Array()
     const state = new Array()
 
-    const data = charts.reduce((obj, v) => {
+    const dataMale = charts.reduce((obj, v) => {
       if (v.gender === 'Male') {
         obj[v.state.toLowerCase().trim()] =
           (obj[v.state.toLowerCase().trim()] || 0) + 1
-        return obj
-      } else if (v.gender === 'Female') {
+      }
+      return obj
+    }, {})
+
+    const dataFemale = charts.reduce((obj, v) => {
+      if (v.gender === 'Female') {
         obj[v.state.toLowerCase().trim()] =
           (obj[v.state.toLowerCase().trim()] || 0) + 1
-        return obj
       }
+      return obj
     }, {})
 
     charts.forEach((chart) => {
@@ -47,10 +51,12 @@ const getCompleted = async (req, res) => {
       const red = Math.floor(Math.random() * 255)
       const green = Math.floor(Math.random() * 255)
       const blue = Math.floor(Math.random() * 255)
-      if (data.hasOwnProperty(fun)) {
+      if (dataMale.hasOwnProperty(fun) || dataFemale.hasOwnProperty(fun)) {
+        const male = dataMale[fun] !== undefined ? dataMale[fun] : 0
+        const female = dataFemale[fun] !== undefined ? dataFemale[fun] : 0
         label.push({
           label: fun,
-          data: [data[fun], second],
+          data: [male, female],
           backgroundColor: `rgb(${red}, ${green}, ${blue})`,
         })
       }

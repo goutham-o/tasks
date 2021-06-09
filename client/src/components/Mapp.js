@@ -35,7 +35,6 @@ class Mapp extends React.Component {
         location.hasOwnProperty('longitude')
       ) {
         if (location.latitude !== 'NULL' && location.longitude !== 'NULL') {
-          console.log(location)
           new mapboxgl.Marker()
             .setLngLat([location.latitude, location.longitude])
             .setPopup(new mapboxgl.Popup({ offset: 30 }))
